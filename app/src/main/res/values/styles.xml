@@ -1,0 +1,27 @@
+<resources>
+
+    <!--
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@color/text_white</item>
+        <item name="colorControlHighlight">@color/blue_main_light</item>
+    </style>
+    -->
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/blue_main_light</item>
+    </style>
+
+    <style name="BaseAppTheme.Translucent" parent="BaseAppTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppTheme.Translucent" parent="@style/BaseAppTheme.Translucent"/>
+
+    <style name="AppTheme" parent="@style/BaseAppTheme">
+    </style>
+
+    <style name="Toolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">@color/text_white</item>
+    </style>
+</resources>
