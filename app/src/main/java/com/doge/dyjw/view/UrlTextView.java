@@ -64,7 +64,6 @@ public class UrlTextView extends TextView {
         }
         @Override
         public void onClick(View widget) {
-            // TODO Auto-generated method stub
             if(url.contains(".") && types.contains(url.substring(url.lastIndexOf(".")).toLowerCase())) {
                 showDialog(url, text);
             } else {

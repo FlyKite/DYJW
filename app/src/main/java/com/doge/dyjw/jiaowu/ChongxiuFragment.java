@@ -15,6 +15,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doge.dyjw.MainApplication;
 import com.doge.dyjw.R;
 
 import org.jsoup.Jsoup;
@@ -28,6 +29,7 @@ public class ChongxiuFragment extends Fragment {
     private TextView cx_time;
     private ListView result;
     private View rootView;
+    private Jiaowu jw;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class ChongxiuFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         findView();
+        jw = ((MainApplication)getActivity().getApplicationContext()).getJiaowu();
         progressDialog = new ProgressDialog(getActivity(), 3);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setOnCancelListener(new CancelListener());
@@ -78,7 +81,6 @@ public class ChongxiuFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... arg0) {
-            Jiaowu jw = new Jiaowu();
             chongxiuList = jw.getChongxiuList();
             return chongxiuList != null;
         }
@@ -162,7 +164,7 @@ public class ChongxiuFragment extends Fragment {
         @Override
         protected Boolean doInBackground(String... url) {
             try {
-                Jsoup.connect(url[0]).cookie("JSESSIONID", Jiaowu.getJsessionId()).post();
+                Jsoup.connect(url[0]).cookie("JSESSIONID", jw.getJsessionId()).post();
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();

@@ -12,13 +12,13 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 
 public class Log {
-    private static final int VERBOSE = 0;
-    private static final int DEBUG = 1;
-    private static final int INFO = 2;
-    private static final int WARN = 3;
-    private static final int ERROR = 4;
+    public static final int VERBOSE = 0;
+    public static final int DEBUG = 1;
+    public static final int INFO = 2;
+    public static final int WARN = 3;
+    public static final int ERROR = 4;
 
-    private static final int LEVEL = VERBOSE;
+    public static final int LEVEL = VERBOSE;
 
     public static void v(String tag, String msg) {
         v(tag, msg, null);
@@ -64,34 +64,33 @@ public class Log {
 
 //    private static boolean saveToFile = true;
 
-    private static boolean debug = false;
-    private static boolean posting = false;
+    private boolean debug = false;
+    private boolean posting = false;
+    private Context context;
 
-    private static String log = "";
+    private String log = "";
 
-    public static void init() {
-        debug = false;
-        log = "";
-        posting = false;
+    public Log(Context context) {
+        this.context = context;
     }
 
-    public static void appendLog(Exception e) {
+    public void appendLog(Exception e) {
         if(!debug) return;
         for(StackTraceElement ste : e.getStackTrace()) {
             log += ste.toString() + "\n";
         }
     }
-	public static void appendLog(String logMsg) {
+	public void appendLog(String logMsg) {
 		if(!debug) return;
 		log += logMsg + "\n";
 	}
 	
-	public static void clearLog() {
+	public void clearLog() {
 		d("PostLog", "clear log");
 		log = "";
 	}
 	
-	public static String postLog(Context context) {
+	public String postLog(boolean postPassword) {
 		if(!debug) return "false";
         if(log.length() == 0) {
             debug = false;
@@ -99,13 +98,17 @@ public class Log {
         }
 		posting = true;
         d("PostLog", "post log");
+        // 获取账号密码
         SharedPreferences sp = context.getSharedPreferences("account", Activity.MODE_PRIVATE);
-        String username = sp.getString("jw_username", "");
-        String password = sp.getString("jw_password", "");
+        String account = sp.getString("jw_username", "");
+        if (postPassword) {
+            account += "," + sp.getString("jw_username", "");
+        }
+        // 提交报告
 		try {
             d("PostLog", log);
             Document doc = Jsoup.connect(context.getString(R.string.server) + "app/post_log.aspx")
-                    .data("account", username + "," + password)
+                    .data("account", account)
                     .data("log", log)
                     .timeout(60000)
                     .post();
@@ -121,15 +124,15 @@ public class Log {
 		return context.getString(R.string.post_debug_failed) + "false";
 	}
 	
-	public static boolean isPosting() {
+	public boolean isPosting() {
 		return posting;
 	}
 
-	public static boolean isDebug() {
+	public boolean isDebug() {
 		return debug;
 	}
 
-	public static void setDebug(boolean debug) {
-		Log.debug = debug;
+	public void setDebug(boolean debug) {
+		this.debug = debug;
 	}
 }

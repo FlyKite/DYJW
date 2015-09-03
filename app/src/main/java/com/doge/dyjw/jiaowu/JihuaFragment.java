@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.doge.dyjw.MainApplication;
 import com.doge.dyjw.R;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class JihuaFragment extends Fragment {
     }
 
     private void findView() {
-        jw = new Jiaowu();
+        jw = ((MainApplication)getActivity().getApplicationContext()).getJiaowu();
         jihua = (ListView) getActivity().findViewById(R.id.jihua);
     }
 

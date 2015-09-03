@@ -1,5 +1,6 @@
 package com.doge.dyjw.jiaowu;
 
+import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -20,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doge.dyjw.MainApplication;
 import com.doge.dyjw.R;
 
 import java.util.List;
@@ -47,7 +49,7 @@ public class ChengjiFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         findView();
-        progressDialog = new ProgressDialog(getActivity(), 3);
+        progressDialog = new ProgressDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setOnCancelListener(new CancelListener());
         getXueqiList();
@@ -70,7 +72,7 @@ public class ChengjiFragment extends Fragment {
     }
 
     private void findView() {
-        jw = new Jiaowu();
+        jw = ((MainApplication)getActivity().getApplicationContext()).getJiaowu();
         result = (ListView) getActivity().findViewById(R.id.result);
         xueqiSpinner = (Spinner) getActivity().findViewById(R.id.xueqi_list);
         xuefen = (TextView) getActivity().findViewById(R.id.xuefen);
@@ -161,7 +163,7 @@ public class ChengjiFragment extends Fragment {
             progressDialog.hide();
             if (result) {
                 setList();
-                xuefen.setText(Jiaowu.getXuefen() + "," + Jiaowu.getJidian());
+                xuefen.setText(jw.getXuefen() + "," +jw.getJidian());
                 return;
             }
             showMessage(getString(R.string.get_failed));

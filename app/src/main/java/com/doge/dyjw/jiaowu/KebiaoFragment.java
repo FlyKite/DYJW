@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doge.dyjw.MainApplication;
 import com.doge.dyjw.R;
 import com.doge.dyjw.view.CourseView;
 import com.doge.dyjw.util.DBHelper;
@@ -49,7 +50,7 @@ public class KebiaoFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        jw = new Jiaowu();
+        jw = ((MainApplication)getActivity().getApplicationContext()).getJiaowu();
         xueqiSpinner = (Spinner) getActivity().findViewById(R.id.xueqi_list);
         LinearLayout kLayout = (LinearLayout) getActivity().findViewById(R.id.fragment_kebiao);
         DisplayMetrics dm = new DisplayMetrics();
@@ -180,7 +181,7 @@ public class KebiaoFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(String... xueqi) {
-            course = new Jiaowu().getNewKebiao(xueqi[0]);
+            course = jw.getNewKebiao(xueqi[0]);
             return course != null;
         }
 

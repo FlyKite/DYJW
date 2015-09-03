@@ -24,7 +24,6 @@ public class HolderFragment extends Fragment {
      * @sectionNumber int sectionNumber.
      * @return A new instance of fragment DrawerFragmentFactory.
      */
-    // TODO: Rename and change types and number of parameters
     public static HolderFragment newInstance(int sectionNumber) {
         int position = sectionNumber - 1;
         Bundle bundle = new Bundle();

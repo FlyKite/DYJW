@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doge.dyjw.ContainerActivity;
+import com.doge.dyjw.MainApplication;
 import com.doge.dyjw.R;
 
 import java.util.List;
@@ -47,14 +48,12 @@ public class PingjiaoListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
 		return rootView;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		LinearLayout main = (LinearLayout)getActivity().findViewById(R.id.frag_container);
 		pjList = new ListView(getActivity());
@@ -76,7 +75,6 @@ public class PingjiaoListFragment extends Fragment {
 	class BackListener implements OnCancelListener {
 		@Override
 		public void onCancel(DialogInterface arg0) {
-			// TODO Auto-generated method stub
 			task.cancel(true);
 			getActivity().finish();
 		}
@@ -87,15 +85,13 @@ public class PingjiaoListFragment extends Fragment {
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			progressDialog.show();
 		}
 		
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			Jiaowu jw = new Jiaowu();
+			Jiaowu jw = ((MainApplication)getActivity().getApplicationContext()).getJiaowu();
 			list = jw.getPingjiaoList(xnxq, pjpc, pjfl, pjkc);
 			if(list != null) {
 				return true;
@@ -105,7 +101,6 @@ public class PingjiaoListFragment extends Fragment {
 		
 		@Override
 		protected void onPostExecute(Boolean result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			progressDialog.hide();
 			if(result) {
@@ -129,7 +124,6 @@ public class PingjiaoListFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View v, int arg2,
 				long arg3) {
-			// TODO Auto-generated method stub
 			TextView url = (TextView)v.findViewById(R.id.url);
 //			FragmentTransaction transaction = getFragmentManager().beginTransaction();
 //			transaction.addToBackStack(null);
@@ -146,7 +140,6 @@ public class PingjiaoListFragment extends Fragment {
 	
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		progressDialog.dismiss();
 //		getFragmentManager().beginTransaction().remove(this).commit();
 		super.onDestroy();

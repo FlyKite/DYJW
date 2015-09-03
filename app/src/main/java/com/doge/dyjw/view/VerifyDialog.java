@@ -1,11 +1,9 @@
 package com.doge.dyjw.view;
 
-import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -15,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.doge.dyjw.MainApplication;
 import com.doge.dyjw.R;
 import com.doge.dyjw.jiaowu.Jiaowu;
 
@@ -60,16 +59,10 @@ public class VerifyDialog extends Builder {
 
     public class LoginTask extends AsyncTask<Void, Integer, Boolean> {
         ProgressDialog dialog;
-        private String pwd;
-        SharedPreferences sp;
         private String verify;
-        private String xh;
 
         protected void onPreExecute() {
             super.onPreExecute();
-            sp = getContext().getSharedPreferences("account", Activity.MODE_PRIVATE);
-            xh = sp.getString("jw_username", "");
-            pwd = sp.getString("jw_password", "");
             verify = verifyCode.getText().toString();
             dialog = new ProgressDialog(getContext());
             dialog.setMessage(getContext().getString(R.string.loging));
@@ -79,7 +72,6 @@ public class VerifyDialog extends Builder {
         protected Boolean doInBackground(Void... param) {
             System.out.println("LoginTask-----------------------------------");
             try {
-                Jiaowu.setAccount(xh, pwd);
                 if (jw.loginJW(verify, context)) {
                     return true;
                 }
@@ -109,7 +101,7 @@ public class VerifyDialog extends Builder {
         }
 
         protected Bitmap doInBackground(Void... params) {
-            jw = new Jiaowu();
+            jw = ((MainApplication)context.getApplicationContext()).getJiaowu();
             return jw.getVerifyCode();
         }
 

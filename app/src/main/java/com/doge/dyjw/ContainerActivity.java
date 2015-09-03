@@ -108,6 +108,9 @@ public class ContainerActivity extends ActionBarActivity {
             case R.string.download_manager:
                 fragment = new DownloadFragment();
                 break;
+            case R.string.report_suggest:
+                fragment = new SuggestFragment();
+                break;
         }
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();

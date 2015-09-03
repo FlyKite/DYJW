@@ -18,8 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.doge.dyjw.BuildConfig;
 import com.doge.dyjw.HolderFragment;
+import com.doge.dyjw.MainApplication;
 import com.doge.dyjw.R;
 
 import java.io.IOException;
@@ -34,7 +34,6 @@ public class JiaowuSystemFragment extends HolderFragment {
     private EditText username;
     private EditText verifyCode;
     private ImageView verifyCodeImage;
-    private VerifyCodeTask verifyCodeTask;
 
     class LoginTask extends AsyncTask<Void, Integer, Boolean> {
         private String pwd;
@@ -57,18 +56,18 @@ public class JiaowuSystemFragment extends HolderFragment {
         protected Boolean doInBackground(Void... param) {
             System.out.println("LoginTask-----------------------------------");
             try {
-                Jiaowu.setAccount(xh, pwd);
+                jw.setAccount(xh, pwd);
                 if (jw.loginJW(verify, getActivity())) {
-                    return Boolean.valueOf(true);
+                    return true;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return Boolean.valueOf(false);
+            return false;
         }
 
         protected void onPostExecute(Boolean result) {
-            if (result.booleanValue()) {
+            if (result) {
                 saveAccount();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm.isActive()) {
@@ -96,7 +95,6 @@ public class JiaowuSystemFragment extends HolderFragment {
         }
 
         protected Bitmap doInBackground(Void... params) {
-            jw = new Jiaowu();
             return jw.getVerifyCode();
         }
 
@@ -120,7 +118,8 @@ public class JiaowuSystemFragment extends HolderFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         findView();
-        if (getSavedAccount()) {
+        jw = ((MainApplication)getActivity().getApplicationContext()).getJiaowu();
+        if (jw.getXuehao().length() != 0 && jw.getPwd().length() != 0 && jw.getJsessionId().length() != 0) {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             Fragment mainPanelFrag = new JiaowuPanelFragment();
             transaction.remove(this);
@@ -146,34 +145,24 @@ public class JiaowuSystemFragment extends HolderFragment {
             public void onClick(View v) {
                 if (loginButton.getText().toString().equals(getString(R.string.login))) {
                     loginTask = new LoginTask();
-                    loginTask.execute(new Void[0]);
+                    loginTask.execute();
                 }
             }
         });
     }
 
     private void getVerifyImage() {
-        verifyCodeTask = new VerifyCodeTask();
-        verifyCodeTask.execute(new Void[0]);
-    }
-
-    private boolean getSavedAccount() {
-        SharedPreferences sp = getActivity().getSharedPreferences("account", 0);
-        username.setText(sp.getString("jw_username", BuildConfig.FLAVOR));
-        password.setText(sp.getString("jw_password", BuildConfig.FLAVOR));
-        if (username.length() == 0 || password.length() == 0 || sp.getString("jw_name", BuildConfig.FLAVOR).length() == 0) {
-            return false;
-        }
-        return true;
+        VerifyCodeTask verifyCodeTask = new VerifyCodeTask();
+        verifyCodeTask.execute();
     }
 
     private void saveAccount() {
         Editor editor = getActivity().getSharedPreferences("account", 0).edit();
         editor.putString("jw_username", username.getText().toString());
         editor.putString("jw_password", password.getText().toString());
-        editor.putString("jw_session_id", Jiaowu.getJsessionId());
+        editor.putString("jw_session_id", jw.getJsessionId());
         editor.putLong("jw_lasttime", System.currentTimeMillis());
-        editor.putString("jw_name", Jiaowu.getName());
+        editor.putString("jw_name", jw.getName());
         editor.commit();
     }
 }

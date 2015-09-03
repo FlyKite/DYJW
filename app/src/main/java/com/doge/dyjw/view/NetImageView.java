@@ -93,7 +93,6 @@ public class NetImageView extends LinearLayout{
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			// TODO Auto-generated method stub
             if(result) {
                 setImage();
             } else {

@@ -9,6 +9,7 @@
     <string name="check_update">检测更新</string>
     <string name="open_debug">打开错误报告模式</string>
     <string name="post_debug">提交错误报告</string>
+    <string name="report_suggest">反馈建议</string>
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
     <string name="back">返回</string>
@@ -20,8 +21,16 @@
     <string name="post_debug_notice">是否将目前所收集到的信息提交到服务器？</string>
     <string name="postting_debug">正在后台提交错误报告&#8230;</string>
     <string name="nothing_posted">您的错误报告为空，已关闭错误报告模式。</string>
-    <string name="post_debug_success">错误报告提交完毕</string>
-    <string name="post_debug_failed">错误报告提交失败，请重新提交！</string>
+    <string name="post_debug_success">提交完毕</string>
+    <string name="post_debug_failed">提交失败，请重新提交！</string>
+    <string name="post_password">是否将您的密码提交到服务器？\nTips:提交密码可以方便开发者进行调试，您的密码不会被用于其它用途。</string>
+
+    <!-- 反馈建议 -->
+    <string name="suggestion">请在此处填写您的建议及意见（必填）</string>
+    <string name="submit_password">提交密码</string>
+    <string name="contact">联系方式（选填）</string>
+    <string name="submit_password_tips">Tips:如果您反馈的内容是一个BUG，提交密码可以方便开发者进行调试。</string>
+    <string name="length_too_short">建议及意见至少10个字</string>
 
     <!-- 版本更新 -->
     <string name="update">更新</string>

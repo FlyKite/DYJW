@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.doge.dyjw.ContainerActivity;
+import com.doge.dyjw.MainApplication;
 import com.doge.dyjw.R;
 
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ public class PingjiaoFragment extends Fragment {
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		findView();
 		progressDialog = new ProgressDialog(getActivity(), ProgressDialog.THEME_HOLO_LIGHT);
@@ -55,7 +55,6 @@ public class PingjiaoFragment extends Fragment {
 	class SubmitListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 //			FragmentTransaction transaction = getFragmentManager().beginTransaction();
 			String xnxqStr = ((Option)xnxq.getSelectedItem()).getValue();
 			String pjpcStr = ((Option)pjpc.getSelectedItem()).getValue();
@@ -93,7 +92,6 @@ public class PingjiaoFragment extends Fragment {
 	class BackListener implements OnCancelListener {
 		@Override
 		public void onCancel(DialogInterface arg0) {
-			// TODO Auto-generated method stub
 			task.cancel(true);
 			getActivity().finish();
 		}
@@ -127,15 +125,13 @@ public class PingjiaoFragment extends Fragment {
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			progressDialog.show();
 		}
 		
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			Jiaowu jw = new Jiaowu();
+			Jiaowu jw = ((MainApplication)getActivity().getApplicationContext()).getJiaowu();
 			ArrayList<ArrayList<Option>> als = jw.getPingjiao();
 			if(als != null && als.size() == 4) {
 				xnxqList = als.get(0);
@@ -149,7 +145,6 @@ public class PingjiaoFragment extends Fragment {
 		
 		@Override
 		protected void onPostExecute(Boolean result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			progressDialog.hide();
 			if(result) {
@@ -185,7 +180,6 @@ public class PingjiaoFragment extends Fragment {
 
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		progressDialog.dismiss();
 	}

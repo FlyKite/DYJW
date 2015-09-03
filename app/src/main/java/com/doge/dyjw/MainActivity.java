@@ -48,7 +48,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.init();
         initDirectory();
         setUpToolbar();
         setUpDrawerList();
@@ -288,7 +287,8 @@ public class MainActivity extends ActionBarActivity {
         menu.add(0, 2, 0, R.string.menu_about);
         menu.add(0, 3, 0, getString(R.string.check_update));
         menu.add(0, 4, 0, getString(R.string.open_debug)).setVisible(false);
-        downloadItem = menu.add(1, 5, 0, "Download");
+        menu.add(0, 5, 0, getString(R.string.report_suggest));
+        downloadItem = menu.add(1, 6, 0, "Download");
         downloadItem.setIcon(R.drawable.download);
         downloadItem.setVisible(false);
         MenuItemCompat.setShowAsAction(downloadItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
@@ -313,12 +313,12 @@ public class MainActivity extends ActionBarActivity {
                         .edit()
                         .putLong("check_date", 0)
                         .commit();
-//                updateTask.executeOnExecutor(Executors.newCachedThreadPool());
                 up.startUpdateByUser();
                 break;
             case 4:
-                if (Log.isDebug()) {
-                    if (!Log.isPosting()) {
+                final Log log = ((MainApplication) getApplicationContext()).getLog();
+                if (log.isDebug()) {
+                    if (!log.isPosting()) {
                         new AlertDialog.Builder(this)
                                 .setTitle(R.string.post_debug)
                                 .setMessage(R.string.post_debug_notice)
@@ -342,13 +342,17 @@ public class MainActivity extends ActionBarActivity {
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Log.setDebug(true);
+                                        log.setDebug(true);
                                         item.setTitle(R.string.post_debug);
                                     }
                                 })
                         .setNegativeButton(R.string.no, null).show();
                 break;
             case 5:
+                intent.putExtra("titleId", R.string.report_suggest);
+                startActivity(intent);
+                break;
+            case 6:
                 intent.putExtra("titleId", R.string.download_manager);
                 startActivity(intent);
                 break;
@@ -357,10 +361,22 @@ public class MainActivity extends ActionBarActivity {
     }
 
     class PostLogTask extends AsyncTask<Void, Integer, String> {
-
+        Log log = ((MainApplication) getApplicationContext()).getLog();
         MenuItem item;
+        boolean postPassword = false;
         public PostLogTask(MenuItem item) {
             this.item = item;
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle(R.string.post_debug)
+                    .setMessage(R.string.post_password)
+                    .setPositiveButton(R.string.yes,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    postPassword = true;
+                                }
+                            })
+                    .setNegativeButton(R.string.no, null).show();
         }
 
         @Override
@@ -371,7 +387,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(Void... arg0) {
-            return Log.postLog(MainActivity.this);
+            return log.postLog(postPassword);
         }
 
         @Override
@@ -379,7 +395,7 @@ public class MainActivity extends ActionBarActivity {
             if (result.contains("true")) {
                 Toast.makeText(MainActivity.this, result.replace("true", ""), Toast.LENGTH_LONG).show();
                 item.setTitle(R.string.open_debug);
-                Log.clearLog();
+                log.clearLog();
             } else {
                 Toast.makeText(MainActivity.this, result.replace("false", ""), Toast.LENGTH_LONG).show();
             }

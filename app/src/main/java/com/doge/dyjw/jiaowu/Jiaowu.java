@@ -33,27 +33,32 @@ import java.util.List;
 import java.util.Map;
 
 public class Jiaowu {
-	private static Connection con;
-	private static String pwd = null;
-	private static String xh = null;
-	private static String name = null;
-	private static String JSESSIONID;
-	private static String xuefen;
-	private static String jidian;
-	private static String bjbh;
+	private Connection con;
+	private String pwd = null;
+	private String xh = null;
+	private String name = null;
+	private String JSESSIONID;
+	private String xuefen;
+	private String jidian;
+	private String bjbh;
 
-	public static void setAccount(String username, String password) {
+	public void setAccount(String username, String password) {
 		xh = username;
 		pwd = password;
 	}
 
+    private Log log;
+    public Jiaowu(Log log) {
+        this.log = log;
+    }
+
 	public ArrayList<String> getXueqiList(boolean allXueqi) {
-        Log.appendLog("&#tstart;--------------获取学期列表及bjbh--------------&#tend;");
+        log.appendLog("&#tstart;--------------获取学期列表及bjbh--------------&#tend;");
 		try {
 			con = Jsoup.connect("http://jwgl.nepu.edu.cn/tkglAction.do?method=kbxxXs")
 					.timeout(6000).cookie("JSESSIONID", JSESSIONID);
 			Document doc = con.get();
-			Log.appendLog(doc.select("body").toString());
+			log.appendLog(doc.select("body").toString());
 			bjbh = doc.getElementsByAttributeValue("name", "bjbh").val();
 			Element elm = doc.getElementById("xnxqh");
 			ArrayList<String> ar = new ArrayList<>();
@@ -66,16 +71,16 @@ public class Jiaowu {
 			return ar;
 		} catch (Exception e) {
             e.printStackTrace();
-			Log.appendLog("&#estart;===========================================");
-            Log.appendLog(e);
+			log.appendLog("&#estart;===========================================");
+            log.appendLog(e);
 			return null;
 		} finally {
-			Log.appendLog("&#cend;");
+			log.appendLog("&#cend;");
 		}
 	}
 
 	public List<Map<String, String>> getChengJi(String kkxq) {
-        Log.appendLog("&#tstart;--------------获取成绩列表--------------&#tend;");
+        log.appendLog("&#tstart;--------------获取成绩列表--------------&#tend;");
 		try {
 			con = Jsoup.connect("http://jwgl.nepu.edu.cn/xszqcjglAction.do?method=queryxscj")
 					.data("kksj", kkxq)
@@ -85,7 +90,7 @@ public class Jiaowu {
 					.timeout(6000)
 					.cookie("JSESSIONID", JSESSIONID);
 			Document doc = con.post();
-			Log.appendLog(doc.select("body").toString());//学分和绩点
+			log.appendLog(doc.select("body").toString());//学分和绩点
 			Element jd = doc.getElementById("tblBm").select("td").get(0);
 			xuefen = jd.select("span").get(1).html();
 			jidian = jd.select("span").get(3).html();
@@ -122,23 +127,23 @@ public class Jiaowu {
 			}
 			return al;
 		} catch (Exception e) {
-            Log.appendLog(e);
-			Log.appendLog("&#estart;===========================================");
+            log.appendLog(e);
+			log.appendLog("&#estart;===========================================");
 			e.printStackTrace();
 			return null;
 		} finally {
-			Log.appendLog("&#cend;");
+			log.appendLog("&#cend;");
 		}
 	}
 
 	public String getChengJiXiangqing(String url) {
-        Log.appendLog("&#tstart;--------------获取成绩详情--------------&#tend;");
+        log.appendLog("&#tstart;--------------获取成绩详情--------------&#tend;");
 		try {
 			con = Jsoup.connect("http://jwgl.nepu.edu.cn" + url)
 					.timeout(6000)
 					.cookie("JSESSIONID", JSESSIONID);
 			Document doc = con.post();
-			Log.appendLog(doc.select("body").toString());
+			log.appendLog(doc.select("body").toString());
             Elements tabs = doc.getElementById("tblHead").select("th");
             Elements items = doc.getElementById("mxh").select("td");
             String result = "";
@@ -148,12 +153,12 @@ public class Jiaowu {
             result = result.substring(0, result.length() - 1);
 			return result;
 		} catch (Exception e) {
-			Log.appendLog("&#estart;===========================================");
+			log.appendLog("&#estart;===========================================");
 			e.printStackTrace();
-			Log.appendLog(e);
+			log.appendLog(e);
 			return null;
 		} finally {
-			Log.appendLog("&#cend;");
+			log.appendLog("&#cend;");
 		}
 	}
 
@@ -178,7 +183,7 @@ public class Jiaowu {
 	}
 	
 	public String[][] getKebiao(String xueqi) {
-        Log.appendLog("&#tstart;--------------获取课表详情--------------&#tend;");
+        log.appendLog("&#tstart;--------------获取课表详情--------------&#tend;");
 		try {
 			con = Jsoup.connect("http://jwgl.nepu.edu.cn/tkglAction.do")
 				.data("method", "goListKbByXs")
@@ -189,7 +194,7 @@ public class Jiaowu {
 				.timeout(6000)
 				.cookie("JSESSIONID", JSESSIONID);
 			Document doc = con.post();
-			Log.appendLog(doc.select("body").toString());
+			log.appendLog(doc.select("body").toString());
 			Element tb = doc.getElementById("kbtable");
 			if(tb == null) {
 				return null;
@@ -216,26 +221,26 @@ public class Jiaowu {
 			return course;
 		} catch(Exception e) {
             e.printStackTrace();
-			Log.appendLog("&#estart;===========================================");
-            Log.appendLog(e);
+			log.appendLog("&#estart;===========================================");
+            log.appendLog(e);
 			return null;
 		} finally {
-			Log.appendLog("&#cend;");
+			log.appendLog("&#cend;");
 		}
 	}
 	
 	public String[][] getNewKebiao(String xueqi) {
-        Log.appendLog("&#tstart;--------------获取新学期课表--------------&#tend;");
+        log.appendLog("&#tstart;--------------获取新学期课表--------------&#tend;");
 		try {
 			String url = "http://jwgl.nepu.edu.cn/tkglAction.do?method=printExcel&sql=&type=xsdy&bjbh="
 					+ bjbh + "&xnxqh=" + xueqi + "&xsid=" + xh + "&excelFs=server";
 			DefaultHttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(url);
-			String cookie = "JSESSIONID=" + Jiaowu.getJsessionId() + ";";
+			String cookie = "JSESSIONID=" + JSESSIONID + ";";
 	        request.addHeader("cookie", cookie);
 			HttpResponse response = client.execute(request);
 			String html = EntityUtils.toString(response.getEntity());
-			Log.appendLog(html);
+			log.appendLog(html);
 			String body = html.substring(html.indexOf("<body"), html.indexOf("body>") + 5);
 			Document doc = Jsoup.parse(body);
 			Elements tr = doc.select("table tr");
@@ -252,23 +257,23 @@ public class Jiaowu {
 			return course;
 		} catch (Exception e) {
             e.printStackTrace();
-			Log.appendLog("&#estart;===========================================");
-            Log.appendLog(e);
+			log.appendLog("&#estart;===========================================");
+            log.appendLog(e);
 			return null;
 		} finally {
-			Log.appendLog("&#cend;");
+			log.appendLog("&#cend;");
 		}
 	}
 
     //教学评价暂时有问题----------
 	public ArrayList<ArrayList<Option>> getPingjiao() {
-		Log.appendLog("&#tstart;--------------获取评教信息--------------&#tend;");
+		log.appendLog("&#tstart;--------------获取评教信息--------------&#tend;");
 		try {
 			con = Jsoup.connect("http://jwgl.nepu.edu.cn/jiaowu/jxpj/jxpjgl_queryxs.jsp")
 					.timeout(15000)
 					.cookie("JSESSIONID", JSESSIONID);
 			Elements els = con.get().select("form select");
-			Log.appendLog(els.toString());
+			log.appendLog(els.toString());
 			ArrayList<ArrayList<Option>> als = new ArrayList<ArrayList<Option>>();
 			for(Element e : els) {
 				ArrayList<Option> al = new ArrayList<Option>();
@@ -285,16 +290,16 @@ public class Jiaowu {
 			return als;
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.appendLog("&#estart;===========================================");
-			Log.appendLog(e);
+			log.appendLog("&#estart;===========================================");
+			log.appendLog(e);
 		} finally {
-			Log.appendLog("&#cend;");
+			log.appendLog("&#cend;");
 		}
 		return null;
 	}
 	
 	public List<Map<String, Object>> getPingjiaoList(String xnxq, String pjpc, String pjfl, String pjkc) {
-		Log.appendLog("&#tstart;--------------获取评教列表--------------&#tend;");
+		log.appendLog("&#tstart;--------------获取评教列表--------------&#tend;");
 		try {
 			con = Jsoup.connect("http://jwgl.nepu.edu.cn/jxpjgl.do?method=queryJxpj&type=xs")
 					.data("ok", "")
@@ -308,7 +313,7 @@ public class Jiaowu {
 					.timeout(6000)
 					.cookie("JSESSIONID", JSESSIONID);
 			Document doc = con.post();
-			Log.appendLog(doc.select("body").toString());
+			log.appendLog(doc.select("body").toString());
 			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 			if(doc.getElementById("mxh") == null) {
 				return null;
@@ -327,22 +332,22 @@ public class Jiaowu {
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.appendLog("&#estart;===========================================");
-			Log.appendLog(e);
+			log.appendLog("&#estart;===========================================");
+			log.appendLog(e);
 		} finally {
-			Log.appendLog("&#cend;");
+			log.appendLog("&#cend;");
 		}
 		return null;
 	}
 	
 	public Document getPingjiaoInfo(String url) {
-		Log.appendLog("&#tstart;--------------获取评教信息--------------&#tend;");
+		log.appendLog("&#tstart;--------------获取评教信息--------------&#tend;");
 		try {
 			con = Jsoup.connect(url)
 					.timeout(6000)
 					.cookie("JSESSIONID", JSESSIONID);
 			Document doc = con.get();
-			Log.appendLog(doc.select("body").toString());
+			log.appendLog(doc.select("body").toString());
 			Elements els = doc.select("input");
 			System.out.println(doc.getElementsByAttributeValue("name", "zbmc"));
 			System.out.println(doc.getElementsByAttributeValue("name", "isCheck"));
@@ -352,10 +357,10 @@ public class Jiaowu {
 			return doc;
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.appendLog("&#estart;===========================================");
-			Log.appendLog(e);
+			log.appendLog("&#estart;===========================================");
+			log.appendLog(e);
 		} finally {
-			Log.appendLog("&#cend;");
+			log.appendLog("&#cend;");
 		}
 		return null;
 	}
@@ -375,21 +380,21 @@ public class Jiaowu {
 			System.out.println(doc.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.appendLog("&#estart;===========================================");
-			Log.appendLog(e);
+			log.appendLog("&#estart;===========================================");
+			log.appendLog(e);
 		} finally {
-			Log.appendLog("&#cend;");
+			log.appendLog("&#cend;");
 		}
 	}
 
 	public List<Map<String, String>> getJihuaList() {
-        Log.appendLog("&#tstart;--------------获取教学计划--------------&#tend;");
+        log.appendLog("&#tstart;--------------获取教学计划--------------&#tend;");
 		try {
 			con = Jsoup.connect("http://jwgl.nepu.edu.cn/pyfajhgl.do?method=toViewJxjhXs")
 					.timeout(6000)
 					.cookie("JSESSIONID", JSESSIONID);
 			Document doc = con.post();
-			Log.appendLog(doc.select("body").toString());
+			log.appendLog(doc.select("body").toString());
 			List<Map<String, String>> al = new ArrayList<>();
 			Elements els = doc.select("#mxh tr");
 			int duoyu = doc.select("#mxh tr").get(0).select("td").size() - 11;
@@ -419,22 +424,22 @@ public class Jiaowu {
 			return al;
 		} catch (Exception e) {
             e.printStackTrace();
-			Log.appendLog("&#estart;===========================================");
-            Log.appendLog(e);
+			log.appendLog("&#estart;===========================================");
+            log.appendLog(e);
 			return null;
 		} finally {
-			Log.appendLog("&#cend;");
+			log.appendLog("&#cend;");
 		}
 	}
 
     public List<Map<String, String>> getChongxiuList() {
-        Log.appendLog("&#tstart;--------------获取重修列表--------------&#tend;");
+        log.appendLog("&#tstart;--------------获取重修列表--------------&#tend;");
         try {
             con = Jsoup.connect("http://jwgl.nepu.edu.cn/zxglAction.do?method=xszxbmList")
                     .timeout(6000)
                     .cookie("JSESSIONID", JSESSIONID);
             Document doc = con.post();
-            Log.appendLog(doc.select("body").toString());
+            log.appendLog(doc.select("body").toString());
             List<Map<String, String>> al = new ArrayList<>();
             // 报名时间
             String cx_time = doc.select("#tbTable td").get(0).text();
@@ -492,11 +497,11 @@ public class Jiaowu {
             return al;
         } catch (Exception e) {
             e.printStackTrace();
-            Log.appendLog("&#estart;===========================================");
-            Log.appendLog(e);
+            log.appendLog("&#estart;===========================================");
+            log.appendLog(e);
             return null;
         } finally {
-            Log.appendLog("&#cend;");
+            log.appendLog("&#cend;");
         }
     }
 	
@@ -544,39 +549,43 @@ public class Jiaowu {
         sp.edit().clear().commit();
 		return false;
 	}
-	
-	public static String getName() {
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+	public String getName() {
 		return name;
 	}
 	
-	public static void clearName() {
+	public void clearName() {
 		name = null;
 	}
 
-    public static void setJsessionId(String JsessionID) {
+    public void setJsessionId(String JsessionID) {
         JSESSIONID = JsessionID;
     }
-    public static String getJsessionId() {
+    public String getJsessionId() {
         return JSESSIONID;
     }
 	
-	public static String getXuefen() {
+	public String getXuefen() {
 		return "已修学分：" + xuefen;
 	}
 	
-	public static String getJidian() {
+	public String getJidian() {
 		return "绩点：" + jidian;
 	}
 	
-	public static String getXuehao() {
+	public String getXuehao() {
 		return xh;
 	}
 	
-	public static String getPwd() {
+	public String getPwd() {
 		return pwd;
 	}
 	
-	public static String getBjbh() {
+	public String getBjbh() {
 		return bjbh;
 	}
 }
