@@ -192,6 +192,7 @@ public class KebiaoFragment extends Fragment {
                 showMessage(getString(R.string.get_failed));
                 courseView.setVisibility(View.GONE);
             } else {
+                saveCourse(course);
                 courseView.setCourse(course);
                 courseView.setVisibility(View.VISIBLE);
             }
