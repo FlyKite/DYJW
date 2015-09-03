@@ -32,6 +32,7 @@ public class UrlTextView extends TextView {
 
     public void setText(Spanned text, OnDownloadListener listener) {
         super.setText(text);
+        Log.v("URLSpan", text.toString());
         this.listener = listener;
         CharSequence cText = getText();
         int end = cText.length();
@@ -55,7 +56,8 @@ public class UrlTextView extends TextView {
         private static final String types = ".doc.docx.xls.xlsx.ppt.pptx.pdf.rar.zip.7z"
                 + ".apk.avi.mp3.mp4.flv";
         MyURLSpan(String url, String text) {
-            if(!url.substring(url.lastIndexOf(".")).toLowerCase()
+            if(!text.contains(".") ||
+                    !url.substring(url.lastIndexOf(".")).toLowerCase()
                     .equals(text.substring(text.lastIndexOf(".")).toLowerCase())) {
                 text += url.substring(url.lastIndexOf("."));
             }

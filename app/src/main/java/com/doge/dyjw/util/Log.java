@@ -18,7 +18,7 @@ public class Log {
     public static final int WARN = 3;
     public static final int ERROR = 4;
 
-    public static final int LEVEL = VERBOSE;
+    public static final int LEVEL = VERBOSE - 1;
 
     public static void v(String tag, String msg) {
         v(tag, msg, null);

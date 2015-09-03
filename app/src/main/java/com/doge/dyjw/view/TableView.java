@@ -24,12 +24,14 @@ import java.util.Map;
  */
 public class TableView extends HorizontalScrollView {
     private Context context;
+    private UrlTextView.OnDownloadListener download;
 
-    public TableView(Context context, Element table) {
+    public TableView(Context context, Element table, UrlTextView.OnDownloadListener download) {
         super(context);
         Log.v("TableView", "newTableView");
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         this.context = context;
+        this.download = download;
         init(table);
     }
 
@@ -75,7 +77,7 @@ public class TableView extends HorizontalScrollView {
                 t.setPadding(10, 0, 10, 0);
                 t.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
                 t.setBackgroundColor(context.getResources().getColor(R.color.window_background_light));
-                t.setText(Html.fromHtml(col.toString()));
+                t.setText(Html.fromHtml(col.toString()), download);
                 t.setTextColor(getResources().getColor(R.color.text_black));
                 t.setMovementMethod(LinkMovementMethod.getInstance());
                 layout.addView(t);

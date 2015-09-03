@@ -139,7 +139,7 @@ public class NewsFragment extends Fragment {
         for(Element e : els) {
             if(e.toString().contains("<tbody>")) {
                 for(Element table : e.select("table")) {
-                    container.addView(new TableView(getActivity(), table));
+                    container.addView(new TableView(getActivity(), table, download));
                 }
             } else if(!e.toString().contains("<img")) {
                 UrlTextView t = new UrlTextView(getActivity());
