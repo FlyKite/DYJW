@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -544,11 +546,29 @@ public class Jiaowu {
             Intent intent = new Intent(context.getString(R.string.broadcast_login));
             intent.putExtra("msg", "login");
             context.sendBroadcast(intent);
+            loginToServer(context);
             return true;
 		}
         sp.edit().clear().commit();
 		return false;
 	}
+
+    public void loginToServer(Context context) throws IOException {
+        String server = context.getString(R.string.server);
+        PackageInfo pi = null;
+        try {
+            pi = context.getPackageManager().getPackageInfo("com.doge.dyjw", 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        int versionCode = pi.versionCode;
+        con = Jsoup.connect(server + "app/login.aspx")
+                .data("username", xh)
+                .data("last_jid", JSESSIONID)
+                .data("versioncode", versionCode + "")
+                .timeout(10000);
+        con.post();
+    }
 
     public void setName(String name) {
         this.name = name;
