@@ -1,5 +1,5 @@
 # ![Logo](https://raw.githubusercontent.com/FlyKite/DYJW/master/art/logo.png)东油教务 Android App
-An Android application for students of NEPU to use the JiaoWuGuanLi system on the Android phone.  
+An Android application for students of NEPU to use the JiaoWuGuanLi system on Android.  
 安卓手机上的东北石油大学教务管理系统。  
 
 APP站点：<http://dyjw.fly-kite.com/>  
@@ -18,7 +18,7 @@ APP站点：<http://dyjw.fly-kite.com/>
 捐赠
 ---
 东油教务使用阿里云服务器  
-如果觉得APP做得还不错，请投币至支付宝pk.kp@163.com  
+如果觉得APP做得还不错，请投币至支付宝DogeFlyKite@gmail.com  
 
 协议
 ---
