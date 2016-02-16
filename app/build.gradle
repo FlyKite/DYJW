@@ -8,8 +8,8 @@ android {
         applicationId "com.doge.dyjw"
         minSdkVersion 8
         targetSdkVersion 21
-        versionCode 12
-        versionName "V1.3.3"
+        versionCode 15
+        versionName "V1.3.6"
     }
     buildTypes {
         release {

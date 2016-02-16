@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.doge.dyjw.jiaowu.BukaoFragmeng;
 import com.doge.dyjw.jiaowu.ChengjiFragment;
 import com.doge.dyjw.jiaowu.ChongxiuFragment;
 import com.doge.dyjw.jiaowu.JihuaFragment;
@@ -21,6 +22,7 @@ import com.doge.dyjw.jiaowu.PingjiaoInfoFragment;
 import com.doge.dyjw.jiaowu.PingjiaoListFragment;
 import com.doge.dyjw.news.DownloadFragment;
 import com.doge.dyjw.news.NewsFragment;
+import com.doge.dyjw.trade.PubItemFragment;
 
 public class ContainerActivity extends ActionBarActivity {
 
@@ -77,6 +79,9 @@ public class ContainerActivity extends ActionBarActivity {
             case R.string.cxbm:
                 fragment = new ChongxiuFragment();
                 break;
+            case R.string.bkbm:
+                fragment = new BukaoFragmeng();
+                break;
             case R.string.jxjh:
                 fragment = new JihuaFragment();
                 break;
@@ -110,6 +115,9 @@ public class ContainerActivity extends ActionBarActivity {
                 break;
             case R.string.report_suggest:
                 fragment = new SuggestFragment();
+                break;
+            case R.string.pub_item:
+                fragment = new PubItemFragment();
                 break;
         }
         if (fragment != null) {

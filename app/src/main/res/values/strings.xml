@@ -2,8 +2,7 @@
     <string name="app_name">东油教务</string>
     <string name="server">http://dyjw.fly-kite.com/</string>
     <string name="back_press">再按一次退出</string>
-    <string name="versionName">V1.3.3</string>
-    <string name="about_content">抱歉哈&lt;br/&gt;现在实在是没想好这里该写些啥&lt;br/&gt;就让它空着好了&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;http://weibo.com/hiy0u&quot;&gt;调皮的微博&lt;br/&gt;戳我戳我^_^&lt;/a&gt;</string>
+    <string name="versionName">V1.3.6</string>
 
     <string name="menu_about">关于</string>
     <string name="check_update">检测更新</string>
@@ -80,6 +79,9 @@
         <item>周日</item>
     </array>
 
+    <!-- 黎明湖畔 -->
+    <string name="pub_item">发布物品</string>
+
     <!-- 教务系统 -->
     <string name="username">用户名</string>
     <string name="password">密　码</string>
@@ -91,12 +93,14 @@
     <string name="jxjh">教学计划</string>
     <string name="jxpj">教学评价</string>
     <string name="cxbm">重修报名</string>
+    <string name="bkbm">补考报名</string>
     <string name="loging">正在登录&#8230;</string>
     <string name="need_verify_code">请输入验证码</string>
     <string name="cj_getting_xueqi">正在获取学期列表&#8230;</string>
     <string name="cj_getting_chengji">正在查询您的成绩&#8230;</string>
     <string name="kb_getting_kebiao">正在查询您的课表&#8230;</string>
     <string name="posting">正在提交请稍候&#8230;</string>
+    <string name="no_more">没有更多了</string>
     <string name="get_failed">查询失败，请稍候再试</string>
     <string name="post_failed">提交失败，请稍候再试</string>
     <string name="cj_no_chengji">您这学期没有相应的成绩</string>

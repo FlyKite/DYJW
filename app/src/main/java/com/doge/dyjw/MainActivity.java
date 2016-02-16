@@ -31,6 +31,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doge.dyjw.jiaowu.Jiaowu;
 import com.doge.dyjw.news.DownloadService;
 import com.doge.dyjw.util.Log;
 import com.doge.dyjw.util.Update;
@@ -242,6 +243,10 @@ public class MainActivity extends ActionBarActivity {
                             userWelcome.setText(R.string.user_welcome);
                             login.setVisibility(View.VISIBLE);
                             logout.setVisibility(View.GONE);
+                            Jiaowu jw = ((MainApplication)getApplicationContext()).getJiaowu();
+                            jw.setJsessionId("");
+                            jw.setAccount("", "");
+                            jw.setName("");
                             Intent intent = new Intent(getString(R.string.broadcast_logout));
                             intent.putExtra("msg", "logout");
                             sendBroadcast(intent);

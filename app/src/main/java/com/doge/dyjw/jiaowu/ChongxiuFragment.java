@@ -42,7 +42,7 @@ public class ChongxiuFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         findView();
         jw = ((MainApplication)getActivity().getApplicationContext()).getJiaowu();
-        progressDialog = new ProgressDialog(getActivity(), 3);
+        progressDialog = new ProgressDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setOnCancelListener(new CancelListener());
         getChongxiu();

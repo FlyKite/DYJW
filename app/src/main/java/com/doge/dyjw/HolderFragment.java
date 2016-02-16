@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.doge.dyjw.jiaowu.JiaowuSystemFragment;
 import com.doge.dyjw.news.DongyouNewsFragment;
+import com.doge.dyjw.trade.TradeFragment;
 
 
 /**
@@ -30,7 +31,7 @@ public class HolderFragment extends Fragment {
         if(fragment[position] == null) {
             switch(position) {
                 case 0: fragment[position] = new MainCourseFragment(); break;
-//                case 1: fragment[position] = new MainCourseFragment(); break;
+                case 1: fragment[position] = new TradeFragment(); break;
                 case 2: fragment[position] = new JiaowuSystemFragment(); break;
                 case 3: fragment[position] = new DongyouNewsFragment();
                     bundle.putInt("which", DongyouNewsFragment.NEWS);
@@ -40,7 +41,7 @@ public class HolderFragment extends Fragment {
                     bundle.putInt("which", DongyouNewsFragment.JWC);
                     fragment[position].setArguments(bundle);
                     break;
-                default: fragment[position] = new HolderFragment();
+                default: return null;
             }
         }
         return fragment[position];

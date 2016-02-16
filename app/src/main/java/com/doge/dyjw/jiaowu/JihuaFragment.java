@@ -1,5 +1,6 @@
 package com.doge.dyjw.jiaowu;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -35,7 +36,7 @@ public class JihuaFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         findView();
-        progressDialog = new ProgressDialog(getActivity(), 3);
+        progressDialog = new ProgressDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setOnCancelListener(new CancelListener());
         getJihua();

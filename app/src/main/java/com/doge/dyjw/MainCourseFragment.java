@@ -120,7 +120,13 @@ public class MainCourseFragment extends HolderFragment {
                 HashMap<String, String> map = new HashMap<>();
                 if (c.getInt(5) == i) {
                     map.put("course_name", c.getString(0));
-                    map.put("course_room", c.getString(4).replace("楼", ""));
+                    String room = c.getString(4);
+                    if (room == null) {
+                        room = c.getString(3);
+                        int start = room.indexOf("]") + 1;
+                        if (start >= 0 && start < room.length()) room = room.substring(start);
+                    }
+                    map.put("course_room", room.replace("楼", ""));
                     map.put("course_id", c.getString(5));
                     mapList.add(map);
                     if (!c.moveToNext()) {

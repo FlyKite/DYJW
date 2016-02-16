@@ -506,6 +506,67 @@ public class Jiaowu {
             log.appendLog("&#cend;");
         }
     }
+
+    public List<Map<String, String>> getBukaoKebao(boolean kebaoOrYibao) {
+        log.appendLog("&#tstart;--------------获取补考可报列表--------------&#tend;");
+        try {
+            con = Jsoup.connect("http://jwgl.nepu.edu.cn/bkglAction.do?method=bkbmList&operate="
+                    + (kebaoOrYibao ? "kbkc" : "ybkc"))
+                    .timeout(6000)
+                    .cookie("JSESSIONID", JSESSIONID);
+            Document doc = con.post();
+            log.appendLog(doc.select("body").toString());
+            List<Map<String, String>> al = new ArrayList<>();
+            // 标题及报名时间
+            String title = doc.select("#tbTable td").get(0).text();
+            HashMap<String, String> time = new HashMap<>();
+            time.put(kebaoOrYibao ? "kbkc" : "ybkc", title);
+            al.add(time);
+            // 是否可报名
+            boolean sfkbm = doc.toString().contains("var sfkbm = \"1\"");
+            // 补考课程
+            Elements els = doc.select("#mxh tr");
+            for(Element e : els) {
+                HashMap<String, String> hashMap = new HashMap<>();
+                Elements infos = e.select("td");
+                hashMap.put("bk_kaikexueqi", "开课学期：" + infos.get(0).text());
+                hashMap.put("bk_kechengmingcheng", infos.get(1).text());
+                hashMap.put("bk_kechengbianhao", "课程编号：" + infos.get(2).text());
+                hashMap.put("bk_kaoshixingzhi", "考试性质：" + infos.get(3).text());
+                hashMap.put("bk_kechengshuxing", "课程属性：" + infos.get(4).text());
+                hashMap.put("bk_kechengxingzhi", "课程性质：" + infos.get(5).text());
+                hashMap.put("bk_xueshi", "学时：" + infos.get(6).text());
+                hashMap.put("bk_xuefen", "学分：" + infos.get(7).text());
+                hashMap.put("bk_zongchengji", "总成绩：" + infos.get(8).text());
+                if (!kebaoOrYibao)  hashMap.put("bk_shifoujiaofei", "是否缴费：" + infos.get(9).text());
+                else  hashMap.put("bk_shifoujiaofei", "");
+                String bmid = infos.get(9 + (kebaoOrYibao ? 0 : 1)).select("a").get(0).attr("onclick");
+                bmid = bmid.substring(bmid.indexOf("('") + 2, bmid.indexOf("')"));
+                hashMap.put("bmid", bmid);
+                if(sfkbm) {
+                    if(kebaoOrYibao) {
+                        hashMap.put("status", "报名");
+                    } else {
+                        hashMap.put("status", "取消报名");
+                    }
+                } else {
+                    hashMap.put("status", "不可操作");
+                }
+                if(!kebaoOrYibao &&  infos.get(9).text().equals("是")) {
+                    hashMap.put("status", "已缴费不可取消");
+                }
+                al.add(hashMap);
+            }
+            return al;
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.appendLog("&#estart;===========================================");
+            log.appendLog(e);
+            return null;
+        } finally {
+            log.appendLog("&#cend;");
+        }
+    }
 	
 	public boolean loginJW(String verifyCode, Context context) throws IOException {
         SharedPreferences sp = context.getSharedPreferences("account", Activity.MODE_PRIVATE);

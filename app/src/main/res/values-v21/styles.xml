@@ -1,10 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme.Translucent" parent="@style/BaseAppTheme.Translucent">
+    <!--
+    <style name="Base.Theme.DYJW.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+    </style>
+
+    <style name="Base.Theme.DYJW.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+    </style>
+
+    <style name="Base.Theme.DYJW.Dark" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+    </style>
+
+    <style name="Theme.DYJW.Dark.Translucent" parent="Theme.DYJW.Dark">
+    </style>
+
+    <style name="Theme.DYJW.Light.Translucent" parent="Theme.DYJW.Light">
+    </style>
+
+    <style name="Theme.DYJW.Light.DarkActionBar.Translucent" parent="Theme.DYJW.Light.DarkActionBar">
+    </style>
+
+    <style name="Theme.DYJW.Light.NewHome" parent="Theme.DYJW.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/blue_main</item>
+    </style>
+
+
+    <style name="Theme.DYJW.Light" parent="Base.Theme.DYJW.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/blue_main</item>
+        <item name="colorPrimaryDark">@color/blue_main_dark</item>
+        <item name="colorAccent">@color/blue_main_light</item>
+    </style>
+
+    <style name="Theme.DYJW.Light.DarkActionBar" parent="Base.Theme.DYJW.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/blue_main</item>
+        <item name="colorPrimaryDark">@color/blue_main_dark</item>
+        <item name="colorAccent">@color/blue_main_light</item>
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
+    <style name="Theme.DYJW.Dark" parent="Base.Theme.DYJW.Dark">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/blue_main</item>
+        <item name="colorPrimaryDark">@color/blue_main_dark</item>
+        <item name="colorAccent">@color/blue_main_light</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+    -->
+
+    <style name="AppTheme.Translucent" parent="@style/BaseAppTheme.Translucent">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
     <style name="AppTheme" parent="@style/BaseAppTheme">
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 </resources>

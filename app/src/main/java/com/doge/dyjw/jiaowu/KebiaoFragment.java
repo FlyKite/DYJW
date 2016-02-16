@@ -24,8 +24,9 @@ import android.widget.Toast;
 
 import com.doge.dyjw.MainApplication;
 import com.doge.dyjw.R;
-import com.doge.dyjw.view.CourseView;
 import com.doge.dyjw.util.DBHelper;
+import com.doge.dyjw.util.Log;
+import com.doge.dyjw.view.CourseView;
 
 import java.util.List;
 import java.util.StringTokenizer;
@@ -206,13 +207,21 @@ public class KebiaoFragment extends Fragment {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
                 if (course[i][j].length() > 2) {
+                    Log.d("saveCourse", course[i][j]);
                     StringTokenizer stk = new StringTokenizer(course[i][j], "\n");
-                    String cname = stk.nextToken();
-                    String clas = stk.nextToken();
-                    String teacher = stk.nextToken();
-                    String weeks = stk.nextToken();
-                    String room = stk.nextToken();
-                    db.execSQL("insert or ignore into " + tb_name + " values(?,?,?,?,?,?)", new String[]{cname, clas, teacher, weeks, room, ((i * 7) + j) + ""});
+                    if (stk.countTokens() == 5) {
+                        String cname = stk.nextToken();
+                        String clas = stk.nextToken();
+                        String teacher = stk.nextToken();
+                        String weeks = stk.nextToken();
+                        String room = stk.nextToken();
+                        db.execSQL("insert or ignore into " + tb_name + " values(?,?,?,?,?,?)", new String[]{cname, clas, teacher, weeks, room, ((i * 7) + j) + ""});
+                    } else if (stk.countTokens() == 3) {
+                        String cname = stk.nextToken();
+                        String teacher = stk.nextToken();
+                        String weeks = stk.nextToken();
+                        db.execSQL("insert or ignore into " + tb_name + "(cname, teacher, weeks, id) values(?,?,?,?)", new String[]{cname, teacher, weeks, ((i * 7) + j) + ""});
+                    }
                 }
             }
         }

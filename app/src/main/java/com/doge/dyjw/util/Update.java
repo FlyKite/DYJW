@@ -182,11 +182,12 @@ public class Update {
         protected String doInBackground(Void... params) {
             Log.d("DownloadUpdate", "开始下载新版APP");
             String sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
-            File dldir = new File(sdcard + MainActivity.APK_DIR);
+            File dldir = new File(MainActivity.APK_DIR);
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet(url);
             try {
                 File myTempFile = new File(dldir + "/dyjw_" + newVersionName + ".apk");
+                Log.d("newAPK", dldir + "/dyjw_" + newVersionName + ".apk");
                 HttpResponse response = client.execute(request);
                 if (myTempFile.exists()) {
                     myTempFile.delete();

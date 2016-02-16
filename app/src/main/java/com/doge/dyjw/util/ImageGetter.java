@@ -2,7 +2,6 @@ package com.doge.dyjw.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 
 import com.doge.dyjw.MainActivity;
 
@@ -27,13 +26,25 @@ public class ImageGetter {
             return fromFile(image);
         } else {
             Log.d("GetImage", "从服务器获取图片" + imageUrl);
-            return fromUrl(imageUrl);
+            return fromUrl(null, imageUrl);
+        }
+    }
+
+    public static Bitmap get(String server, String imageUrl) {
+        File image = new File(MainActivity.IMAGE_DIR + imageUrl);
+        Log.d("ImagePath", image.getAbsolutePath());
+        if (image.exists()) {
+            Log.d("GetImage", "从本地获取图片" + imageUrl);
+            return fromFile(image);
+        } else {
+            Log.d("GetImage", "从服务器获取图片" + imageUrl);
+            return fromUrl(server, imageUrl);
         }
     }
 
     public static boolean exists(String imageUrl) {
         String fileName = imageUrl.substring(imageUrl.lastIndexOf("/"));
-        File image = new File(MainActivity.IMAGE_DIR + fileName);
+        File image = new File(MainActivity.IMAGE_DIR + "/" + fileName);
         if (image.exists()) {
             return true;
         } else {
@@ -41,16 +52,20 @@ public class ImageGetter {
         }
     }
 
-    private static Bitmap fromUrl(String imageUrl) {
-        String fileName = imageUrl.substring(imageUrl.lastIndexOf("/"));
+    private static Bitmap fromUrl(String server, String imageUrl) {
+        String fileName = server != null ? imageUrl : imageUrl.substring(imageUrl.lastIndexOf("/"));
+        String url = server != null ? server + imageUrl : imageUrl;
         try {
-            HttpURLConnection conn = (HttpURLConnection) new URL(imageUrl).openConnection();
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
             conn.setConnectTimeout(6000);//设置超时
             conn.setDoInput(true);
             conn.connect();
             InputStream is = conn.getInputStream();//获得图片的数据流
-            File image = new File(MainActivity.IMAGE_DIR + fileName);
+            File image = new File(MainActivity.IMAGE_DIR + "/" + fileName);
             Log.d("GetImage", "保存图片到" + image.getAbsolutePath());
+            if (!image.getParentFile().exists()) {
+                image.getParentFile().mkdirs();
+            }
             if (!image.exists()) {
                 image.createNewFile();
             }

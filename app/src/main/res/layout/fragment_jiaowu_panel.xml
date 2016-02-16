@@ -59,6 +59,18 @@
 
         <Button
             android:background="@drawable/button_background"
+            android:id="@+id/button_bkbm"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="@string/bkbm"
+            android:textSize="17sp"
+            android:textColor="@color/text_white" />
+
+        <Button
+            android:background="@drawable/button_background"
             android:id="@+id/button_jxjh"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"

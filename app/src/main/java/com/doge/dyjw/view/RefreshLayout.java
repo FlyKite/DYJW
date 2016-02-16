@@ -154,7 +154,7 @@ public class RefreshLayout extends SwipeRefreshLayout implements AbsListView.OnS
         if ((firstVisibleItem == 0) && (mListView.getAdapter() != null)) {
             if (top == 9999)
                 top = mListView.getChildAt(0).getTop();
-            if (mListView.getChildAt(0).getTop() == top)
+            if (mListView.getChildCount() > 0 && mListView.getChildAt(0).getTop() == top)
                 setEnabled(true);
         } else {
             setEnabled(false);

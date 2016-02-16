@@ -25,6 +25,7 @@ public class JiaowuPanelFragment extends Fragment {
     private Button button_cjcx;
     private Button button_grkb;
     private Button button_cxbm;
+    private Button button_bkbm;
     private Button button_jxjh;
     private Button button_jxpj;
     private LayoutInflater inflater;
@@ -49,6 +50,7 @@ public class JiaowuPanelFragment extends Fragment {
         button_grkb.setOnClickListener(l);
         button_jxjh.setOnClickListener(l);
         button_cxbm.setOnClickListener(l);
+        button_bkbm.setOnClickListener(l);
         button_jxpj.setOnClickListener(l);
 //        button_jxpj.setVisibility(View.GONE);
         setUpBroadcastReceiver();
@@ -59,6 +61,7 @@ public class JiaowuPanelFragment extends Fragment {
         button_cjcx = (Button) rootView.findViewById(R.id.button_cjcx);
         button_grkb = (Button) rootView.findViewById(R.id.button_grkb);
         button_cxbm = (Button) rootView.findViewById(R.id.button_cxbm);
+        button_bkbm = (Button) rootView.findViewById(R.id.button_bkbm);
         button_jxjh = (Button) rootView.findViewById(R.id.button_jxjh);
         button_jxpj = (Button) rootView.findViewById(R.id.button_jxpj);
     }
@@ -94,6 +97,9 @@ public class JiaowuPanelFragment extends Fragment {
                     break;
                 case R.id.button_cxbm:
                     intent.putExtra("titleId", R.string.cxbm);
+                    break;
+                case R.id.button_bkbm:
+                    intent.putExtra("titleId", R.string.bkbm);
                     break;
                 case R.id.button_jxjh:
                     intent.putExtra("titleId", R.string.jxjh);
